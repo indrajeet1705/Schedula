@@ -21,7 +21,6 @@ export class Patient{
   complaint:string;
   @Column()
   isUser:boolean;
-  @ManyToOne(()=>User,(user)=>user.patient)
-  user:User[]
+ 
   
 }
