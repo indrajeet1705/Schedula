@@ -11,6 +11,7 @@ import { PatientModule } from './patient/patient.module';
 import { User } from './entities/user.entity';
 import { Doctor } from './entities/doctor.entity';
 import { Patient } from './entities/patient.entity';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -31,6 +32,7 @@ import { Patient } from './entities/patient.entity';
     UserModule,
     DoctorModule,
     PatientModule,
+    AuthModule,
   ],
   controllers: [AppController, HelloController],
   providers: [AppService, HelloService],
