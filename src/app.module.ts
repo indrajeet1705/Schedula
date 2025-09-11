@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HelloController } from './hello/hello.controller';
-import { HelloService } from './hello/hello.service';
+
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { DoctorModule } from './doctor/doctor.module';
-import { PatientModule } from './patient/patient.module';
-import { User } from './entities/user.entity';
-import { Doctor } from './entities/doctor.entity';
-import { Patient } from './entities/patient.entity';
+
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { join } from 'path';
+import { PatientsModule } from './patients/patients.module';
+import { DoctorsModule } from './doctors/doctors.module';
+import { AppointmentsModule } from './appointments/appointments.module';
+import { AvailabilityModule } from './availability/availability.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -24,17 +24,20 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, Doctor, Patient],
+        entities: [join(process.cwd(),'dist/**/*.entity.js')],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
-    UserModule,
-    DoctorModule,
-    PatientModule,
+    
     AuthModule,
+    UsersModule,
+    PatientsModule,
+    DoctorsModule,
+    AppointmentsModule,
+    AvailabilityModule,
   ],
-  controllers: [AppController, HelloController],
-  providers: [AppService, HelloService],
+  controllers: [AppController, ],
+  providers: [AppService, ],
 })
 export class AppModule {}
