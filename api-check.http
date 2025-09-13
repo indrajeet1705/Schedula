@@ -1,0 +1,15 @@
+#
+POST http://localhost:3000/api/v1/patient/register 
+Content-Type: application/json
+
+{
+  "fullName":"suraj Bhujbal",
+  "phone":"1234226347",
+  "email":"ins@gmail.com",
+  "dob":"10-17-2005",
+  "weight":90,
+  "age":45,
+  "gender":"M",
+  "password":"abdc"
+
+}

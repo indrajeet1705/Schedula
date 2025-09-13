@@ -1,8 +1,8 @@
-import { Controller, Res,Get, Query, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Req,Get, Query, HttpException, HttpStatus,Res, Param, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
-import { Public } from 'src/decorators/public.decorator';
+
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -12,7 +12,7 @@ export class AuthController {
   ) {}
 
   @Get('google')
-  @Public()
+
   getGoogleAuthUrl(@Query('role') role: string,@Res() res:any) {
     if (!role || !['doctor', 'patient'].includes(role)) {
       throw new HttpException('Role is required (?role=doctor|patient)', HttpStatus.BAD_REQUEST);
@@ -20,7 +20,7 @@ export class AuthController {
 
     const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID');
     const redirectUri =
-      this.configService.get<string>('GOOGLE_REDIRECT_URI') ||
+      this.configService.get<string>('REDIRECT_URI') ||
       'http://localhost:3000/api/v1/auth/google/callback';
 
     const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -38,7 +38,7 @@ export class AuthController {
   }
 
   @Get('google/callback')
-  @Public()
+
   async googleAuthCallback(
     @Query('code') code: string,
     @Query('state') role: string,
@@ -47,7 +47,7 @@ export class AuthController {
       if (!code) {
         throw new HttpException('Authorization code missing', HttpStatus.BAD_REQUEST);
       }
-
+       console.log(role)
       if (!role || !['doctor', 'patient'].includes(role)) {
         throw new HttpException('Role missing in state', HttpStatus.BAD_REQUEST);
       }
@@ -55,7 +55,7 @@ export class AuthController {
       const clientId = this.configService.get<string>('GOOGLE_CLIENT_ID')!;
       const clientSecret = this.configService.get<string>('GOOGLE_CLIENT_SECRET')!;
       const redirectUri =
-        this.configService.get<string>('GOOGLE_REDIRECT_URI') ||
+        this.configService.get<string>('REDIRECT_URI') ||
         'http://localhost:3000/api/v1/auth/google/callback';
 
      
@@ -67,6 +67,7 @@ export class AuthController {
           client_secret: clientSecret,
           redirect_uri: redirectUri,
           grant_type: 'authorization_code',
+          
         }).toString(),
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } },
       );
@@ -82,14 +83,12 @@ export class AuthController {
       });
 
       const googleUser = userResponse.data;
-    
+      
     
       const result = await this.authService.validateGoogleUser({
         email: googleUser.email,
         name: googleUser.name,
-        // picture: googleUser.picture,
-        googleId: googleUser.id,
-        role: role as 'doctor' | 'patient',
+        role  
       });
 
      

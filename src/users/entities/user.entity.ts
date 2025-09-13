@@ -14,16 +14,12 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ nullable: true })
-  password: string; 
-
-  @Column()
+  @Column({default:'google'})
   provider: string; 
 
   @Column({ type: 'enum', enum: ['doctor', 'patient'] })
-  role: 'doctor' | 'patient';
+  role: string;
 
-  
   @OneToOne(()=>Doctor)
   doctor:Doctor
 

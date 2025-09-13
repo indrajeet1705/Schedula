@@ -7,10 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { JwtModule } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
+
 @Module({
   imports:[
        ConfigModule,
-       PassportModule,
+       PassportModule.register({session:false}),
        TypeOrmModule.forFeature([User]),
        JwtModule.registerAsync({
         imports:[ConfigModule],
@@ -22,7 +23,9 @@ import { User } from 'src/users/entities/user.entity';
        })
 
   ],
-  providers: [AuthService],
+  providers: [AuthService,],
   controllers: [AuthController]
 })
-export class AuthModule {}
+export class AuthModule {
+  
+}
