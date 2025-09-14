@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { JwtModule } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
+import { LocalStrategy } from './strategy/local.strategy';
+import { UsersModule } from 'src/users/users.module';
+import { OtpModule } from 'src/otp/otp.module';
 
 @Module({
   imports:[
@@ -20,10 +23,11 @@ import { User } from 'src/users/entities/user.entity';
           secret:config.get('JWT_SECRET'),
           signOptions:{expiresIn:'1d'}
         })
-       })
+       }),
+      UsersModule,OtpModule
 
   ],
-  providers: [AuthService,],
+  providers: [AuthService,LocalStrategy],
   controllers: [AuthController]
 })
 export class AuthModule {

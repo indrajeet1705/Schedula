@@ -13,3 +13,34 @@ Content-Type: application/json
   "password":"abdc"
 
 }
+
+###
+POST http://localhost:3000/api/v1/auth/signup
+Content-Type: application/json
+
+{
+  "name":"raj lad",
+  "email":"vu4f2324001@pvppcoe.ac.in",
+  "password":"eedesdssdede",
+  "role":"doctor"
+}
+###
+###
+POST   http://localhost:3000/api/v1/auth/signin
+Content-Type: application/json
+
+{
+ "email":"ajit@gmail.com",
+ "password":"ancdkjkfded"
+}
+###
+
+
+POST http://localhost:3000/api/v1/auth/verify-otp
+Content-Type: application/json
+
+{
+  "userId": 17,
+  "token": "391943"
+}
+###

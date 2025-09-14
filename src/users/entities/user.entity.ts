@@ -13,12 +13,21 @@ export class User {
 
   @Column({ unique: true })
   email: string;
+  
+  @Column()
+  password:string
 
   @Column({default:'google'})
   provider: string; 
 
+  @Column({default:false,nullable:false})
+  isVerified:boolean
+
   @Column({ type: 'enum', enum: ['doctor', 'patient'] })
   role: string;
+
+  @Column({default:'email'})
+  verificationMethod:'google' | 'email' 
 
   @OneToOne(()=>Doctor)
   doctor:Doctor

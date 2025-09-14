@@ -12,6 +12,8 @@ import { PatientsModule } from './patients/patients.module';
 import { DoctorsModule } from './doctors/doctors.module';
 import { AppointmentsModule } from './appointments/appointments.module';
 import { AvailabilityModule } from './availability/availability.module';
+import { OtpModule } from './otp/otp.module';
+import { EmailModule } from './email/email.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -36,6 +38,8 @@ import { AvailabilityModule } from './availability/availability.module';
     DoctorsModule,
     AppointmentsModule,
     AvailabilityModule,
+    OtpModule,
+    EmailModule,
   ],
   controllers: [AppController, ],
   providers: [AppService, ],

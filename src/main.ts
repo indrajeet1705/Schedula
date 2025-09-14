@@ -15,6 +15,7 @@ async function bootstrap() {
       cookie: { maxAge: 3600000 }, // 1 hour
     }),
   );
+  app.setGlobalPrefix('api/v1')
 
   app.use(passport.initialize());
   app.use(passport.session());
