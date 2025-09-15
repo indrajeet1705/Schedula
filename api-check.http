@@ -19,7 +19,7 @@ POST http://localhost:3000/api/v1/auth/signup
 Content-Type: application/json
 
 {
-  "name":"raj lad",
+  "name":"Indrajeet Bhujbal",
   "email":"vu4f2324001@pvppcoe.ac.in",
   "password":"eedesdssdede",
   "role":"doctor"
@@ -40,12 +40,12 @@ POST http://localhost:3000/api/v1/auth/verify-otp
 Content-Type: application/json
 
 {
-  "userId": 20,
-  "token": "928851"
+  "userId": 8,
+  "token": "952364"
 }
 ###
 
-POST http://localhost:3000/api/v1/doctors/21
+POST http://localhost:3000/api/v1/doctors/7
 Content-Type: application/json
 
 {
@@ -64,7 +64,7 @@ GET http://localhost:3000/api/v1/doctors
 
 ###  create doc availability
 
-POST http://localhost:3000/api/v1/availability/6
+POST http://localhost:3000/api/v1/availability/3
 Content-Type: application/json
 
 {
@@ -74,17 +74,19 @@ Content-Type: application/json
   "endTime":"12:00",
   "capacity":3,
   "scheduleType": "WAVE"
+  
 }
 ###
 
 
-POST http://localhost:3000/api/v1/patients/22
+POST http://localhost:3000/api/v1/patients/8
 Content-Type: application/json
 
 {
   "phone": "1234567890",
   "dob": "2005-10-10",
   "age": 34,
-  "gender": "Male"
+  "gender": "Male",
+  "medicalHistory":"had a heart surgury"
 }
 ###

@@ -54,6 +54,9 @@ export class DoctorsService {
     return await this.docRepo.findOne({where:{email}})
   }
   async updateProfileStatus ( docId : number , toUpdate:any){
-    return await this.docRepo.update(docId,{isProfileCompleted:toUpdate})
+    await this.docRepo.update(docId,{isProfileCompleted:toUpdate})
+    const updatedDoc=await this.findOne(docId)
+    if(updatedDoc)
+    return updatedDoc
   }
 }

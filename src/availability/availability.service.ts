@@ -21,10 +21,11 @@ export class AvailabilityService {
    if(!doc){
     throw new BadRequestException('Try again later!')
    }
-   await this.docService.updateProfileStatus(docId,true)
+   const updatedDoc=await this.docService.updateProfileStatus(docId,true)
+   
    const newAvailability=  this.availableRepo.create({
     ...createAvailabilityDto,
-    doctor:doc
+    doctor:updatedDoc
    })
 
    const createdAvailability=await this.availableRepo.save(newAvailability)
