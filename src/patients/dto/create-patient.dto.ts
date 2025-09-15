@@ -1,39 +1,40 @@
 import { Type } from 'class-transformer';
 import {
+  IsBoolean,
   IsDate,
   IsEmail,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
 export class CreatePatientDto {
-  @IsString()
-  @IsNotEmpty()
-  fullName: string;
 
+  fullName?: string;
+
+ 
+  email?: string;
   @IsString()
   @IsNotEmpty()
   phone: string;
-  @IsEmail()
+  
   @IsNotEmpty()
-  email: string;
   @Type(() => Date)
   @IsDate()
-  @IsNotEmpty()
   dob: Date;
-  @IsNumber()
+
   @IsNotEmpty()
-  weight: number;
-  @IsNumber()
-  @IsNotEmpty()
-  age: number;
+  age: string;
+
   @IsString()
   @IsNotEmpty()
   gender: string;
   @IsString()
-  @IsNotEmpty()
-  password: string;
+  @IsOptional()
+  medicalHistory?:string
+
+  isProfileCompleted?:boolean
 }
 
 export class VerificationDto {

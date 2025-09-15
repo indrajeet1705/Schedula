@@ -14,6 +14,7 @@ import { AppointmentsModule } from './appointments/appointments.module';
 import { AvailabilityModule } from './availability/availability.module';
 import { OtpModule } from './otp/otp.module';
 import { EmailModule } from './email/email.module';
+import { SlotsModule } from './slots/slots.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -40,6 +41,7 @@ import { EmailModule } from './email/email.module';
     AvailabilityModule,
     OtpModule,
     EmailModule,
+    SlotsModule,
   ],
   controllers: [AppController, ],
   providers: [AppService, ],

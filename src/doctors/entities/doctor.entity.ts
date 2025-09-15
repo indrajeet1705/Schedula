@@ -4,28 +4,38 @@ import { User } from "src/users/entities/user.entity";
 
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
+const enum ConsultingType{
+  WAVE='wave',
+  STREAM='stream'
+}
+
 @Entity()
 export class Doctor {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  address: string;
+  @Column({nullable:true})
+  name:string
+
+  @Column({unique:true,nullable:true})
+  email:string
 
   @Column()
-  email: string;
+  location: string;
+ 
+
 
   @Column()
   mobileNo: string;
 
   @Column()
-  fees: number;
+  fees: string;
 
   @Column()
   speciality: string;
 
   @Column()
-  experience: number;
+  experience: string;
 
   @Column()
   degree: string;
@@ -36,12 +46,12 @@ export class Doctor {
   @Column({ default: true })
   available: boolean;
 
-  @Column()
-  slotPeriod: number;
-
-  @OneToOne(() => User)
-  @JoinColumn({ name: 'uId' })
+  @OneToOne(() => User,user=>user.doctor,{onDelete:'CASCADE'})
+  @JoinColumn()
   user: User;
+
+  @Column({default:false})
+  isProfileCompleted:boolean
 
  
   @OneToMany(() => Availability, (av) => av.doctor)

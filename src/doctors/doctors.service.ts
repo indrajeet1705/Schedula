@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Doctor } from './entities/doctor.entity';
+import { Repository } from 'typeorm';
+import { UsersService } from 'src/users/users.service';
+import { use } from 'passport';
 
 @Injectable()
 export class DoctorsService {
-  create(createDoctorDto: CreateDoctorDto) {
-    return 'This action adds a new doctor';
+  constructor(
+    @InjectRepository(Doctor)
+    private docRepo:Repository<Doctor>,
+    private userService:UsersService
+  ){}
+ async create(createDoctorDto: CreateDoctorDto,userId:number) {
+   if(!createDoctorDto){
+    throw new BadRequestException('All fields are required!')
+   }
+   const user = await this.userService.findOne(userId);
+   if (!user){
+       throw new BadRequestException('provide userId')
+   }
+
+   const existingDoc= await this.findByEmail(user.email)
+   if(existingDoc) throw new BadRequestException('Doctor with this email already exists')
+   const newDoctor =  this.docRepo.create({
+    ...createDoctorDto,
+    user,
+    name:user.name,
+    email:user.email
+   })
+   
+   return await this.docRepo.save(newDoctor)
   }
 
-  findAll() {
-    return `This action returns all doctors`;
+  async findAll() {
+      return await this.docRepo.find()
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} doctor`;
+    return this.docRepo.findOne({where:{id}})
   }
 
-  update(id: number, updateDoctorDto: UpdateDoctorDto) {
-    return `This action updates a #${id} doctor`;
+  async update(id: number, updateDoctorDto: UpdateDoctorDto) {
+    return await this.docRepo.update(id,updateDoctorDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} doctor`;
+    return this.docRepo.delete(id)
+  }
+  async findByEmail(email:string){
+    return await this.docRepo.findOne({where:{email}})
+  }
+  async updateProfileStatus ( docId : number , toUpdate:any){
+    return await this.docRepo.update(docId,{isProfileCompleted:toUpdate})
   }
 }

@@ -40,7 +40,51 @@ POST http://localhost:3000/api/v1/auth/verify-otp
 Content-Type: application/json
 
 {
-  "userId": 17,
-  "token": "391943"
+  "userId": 20,
+  "token": "928851"
+}
+###
+
+POST http://localhost:3000/api/v1/doctors/21
+Content-Type: application/json
+
+{
+  "mobileNo":"1234567890",
+  "fees":"300",
+  "speciality":"ginacologist",
+  "location":"mumbai",
+  "experience":"4 years",
+  "degree":"MBBS",
+  "gender":"Male",
+  "available":true
+}
+###
+
+GET http://localhost:3000/api/v1/doctors
+
+###  create doc availability
+
+POST http://localhost:3000/api/v1/availability/6
+Content-Type: application/json
+
+{
+  "weekdays":["Monday","Tuesday","Wednesday","Thursday","Friday"],
+  "sessions":["MORNING","EVENING"],
+  "startTime":"09:00",
+  "endTime":"12:00",
+  "capacity":3,
+  "scheduleType": "WAVE"
+}
+###
+
+
+POST http://localhost:3000/api/v1/patients/22
+Content-Type: application/json
+
+{
+  "phone": "1234567890",
+  "dob": "2005-10-10",
+  "age": 34,
+  "gender": "Male"
 }
 ###

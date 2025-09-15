@@ -7,9 +7,9 @@ import { UpdateDoctorDto } from './dto/update-doctor.dto';
 export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) {}
 
-  @Post()
-  create(@Body() createDoctorDto: CreateDoctorDto) {
-    return this.doctorsService.create(createDoctorDto);
+  @Post('/:id')
+  create(@Body() createDoctorDto: CreateDoctorDto,@Param('id') id:number) {
+    return this.doctorsService.create(createDoctorDto,id);
   }
 
   @Get()

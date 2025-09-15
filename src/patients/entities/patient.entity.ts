@@ -1,6 +1,6 @@
 import { Appointment } from "src/appointments/entities/appointment.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 export enum VerificationMethods{
   EMAIL="email",
@@ -12,65 +12,36 @@ export class Patient {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  fullName: string;
-
   @Column({unique:true})
   phone:string
+  @Column({nullable:true})
+  fullName:string
+   @Column({nullable:true})
+   email:string
 
-  @Column({unique:true})
-  email:string
   
   @Column({type:'date'})
   dob:Date
+
+  @Column()
+  gender:string
   
   @Column()
-  password:string
-
-  @Column()
-  weight: number;
-
-  @Column()
-  age: number;
-
-  @Column()
-  gender: string;
-
-  @Column({nullable:true,default:''})
-  complaints: string;
+  age:string
   
   @Column({default:false})
-  isVerified:boolean
+  isProfileCompleted:boolean
+
+  @Column({default:''})
+  medicalHistory:string
   
-  @Column({nullable:true})
-  otpCode:string
+  @OneToOne(()=>User,user=>user.patient,{onDelete:"CASCADE"})
+  @JoinColumn({name:'uId'})
+  user:User
 
-  @Column({nullable:true})
-  otpExpiry:Date
+  @OneToMany(()=>Appointment, appointment=>appointment.patient)
+  appointments:Appointment[]
 
-  @Column({default:VerificationMethods.NONE,nullable:true})
-  verificationMethod:VerificationMethods
   
-  @Column({nullable:true})
-  emailVerifiedAt:Date
 
-  @Column({nullable:true})
-  phoneVerifiedAt:Date
-
-  @Column({default:1})
-  onboardingSteps:number
-
-  @Column({default:false})
-  isOnboardingCompleted:boolean
-
-
-
-
-  @ManyToOne(() => User,(user)=>user.patient)
-  @JoinColumn({ name: 'uId' })
-  user: User;
-
-
-  @OneToMany(() => Appointment, (appt) => appt.patient)
-  appointments: Appointment[];
 }

@@ -3,13 +3,13 @@ import { PatientsService } from './patients.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 
-@Controller('api/v1/patient')
+@Controller('patients')
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
-  @Post('register')
-  create(@Body() createPatientDto: CreatePatientDto) {
-    return this.patientsService.create(createPatientDto);
+  @Post('/:id')
+  create(@Body() createPatientDto: CreatePatientDto,id:number) {
+    return this.patientsService.create(createPatientDto,id);
   }
 
   @Get()

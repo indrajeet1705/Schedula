@@ -1,40 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { Patient } from './entities/patient.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class PatientsService {
   constructor(
     @InjectRepository(Patient)
-    private patientRepo:Repository<Patient>
+    private patientRepo:Repository<Patient>,
+    private userService:UsersService
   ){}
-  async create(createPatientDto: CreatePatientDto):Promise<Patient> {
-    if(!createPatientDto) throw new Error('provide all info')
-    let newPatient =  this.patientRepo.create(createPatientDto)
-    newPatient={...newPatient,onboardingSteps:2}
-   
-    await this.patientRepo.save(newPatient)
-    
+  async create(createPatientDto: CreatePatientDto,userId:number):Promise<Patient | null> {
+    if(!createPatientDto){ throw new BadRequestException('provide all info')}
 
-    return newPatient;
+    const user = await this.userService.findOne(userId)
+    if(!user){
+      throw new NotFoundException('Server error,try again later')
+    }
+    const existingPatient= await this.findByEmail(user.email)
+    if(existingPatient) {
+    throw new BadRequestException('Patient with this email already exists ')  
+    }
+
+    let newPatient =  this.patientRepo.create({
+      ...createPatientDto,
+      user,
+      fullName:user.name,
+      email:user.email
+      
+    })
+    newPatient=await this.patientRepo.save(newPatient)
+    await this.updateProfilCompleted(newPatient.id,true)
+    return await this.patientRepo.findOne({where:{id:newPatient.id},relations:['user']})  ;
   }
 
-  findAll() {
-    return `This action returns all patients`;
+  async findAll() {
+    return await this.patientRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} patient`;
+  async findOne(id: number) {
+    return await this.patientRepo.findOne({where:{id}});
   }
 
-  update(id: number, updatePatientDto: UpdatePatientDto) {
-    return `This action updates a #${id} patient`;
+async update(id: number, updatePatientDto: UpdatePatientDto) {
+    return await this.patientRepo.update(id,updatePatientDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} patient`;
+  async remove(id: number) {
+    return await this.patientRepo.delete(id)
+  }
+  async findByEmail(email:string){
+    return await this.patientRepo.findOne({where:{email}})
+  }
+  async updateProfilCompleted(id:number,toUpdate:boolean){
+    return this.patientRepo.update(id,{isProfileCompleted:toUpdate})
   }
 }

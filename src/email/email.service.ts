@@ -9,8 +9,7 @@ export class EmailService {
   ){}
   emailTransport(){
     const transport = nodemailer.createTransport({
-      // host:this.configService.get('HOST_NAME'),
-      // port:this.configService.get('PORT'),
+      
       service:'gmail',
       secure:false,
       auth:{

@@ -32,9 +32,7 @@ export class User {
   @OneToOne(()=>Doctor)
   doctor:Doctor
 
-  @OneToMany(()=>Patient,(patient)=>patient.user)
+  @OneToOne(()=>Patient)
   patient:Patient
 
-  @OneToMany(()=>Appointment,appt=>appt.user)
-  appointments:Appointment[]
 }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AvailabilityService } from './availability.service';
 import { CreateAvailabilityDto } from './dto/create-availability.dto';
 import { UpdateAvailabilityDto } from './dto/update-availability.dto';
@@ -7,9 +15,13 @@ import { UpdateAvailabilityDto } from './dto/update-availability.dto';
 export class AvailabilityController {
   constructor(private readonly availabilityService: AvailabilityService) {}
 
-  @Post()
-  create(@Body() createAvailabilityDto: CreateAvailabilityDto) {
-    return this.availabilityService.create(createAvailabilityDto);
+  @Post('/:id')
+  async create(
+    @Body() createAvailabilityDto: CreateAvailabilityDto,
+    @Param('id') id: number,
+  ) {
+    console.log(createAvailabilityDto,id)
+    return await this.availabilityService.create(createAvailabilityDto, id);
   }
 
   @Get()
@@ -23,7 +35,10 @@ export class AvailabilityController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAvailabilityDto: UpdateAvailabilityDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAvailabilityDto: UpdateAvailabilityDto,
+  ) {
     return this.availabilityService.update(+id, updateAvailabilityDto);
   }
 

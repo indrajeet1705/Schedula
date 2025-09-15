@@ -1,15 +1,22 @@
-import { Doctor } from "src/doctors/entities/doctor.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Doctor } from 'src/doctors/entities/doctor.entity';
+import { Slot } from 'src/slots/entities/slot.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-export  enum SessionType{
-  MORNING='Morning',
-  AFTERNOON='Afternoon',
-  EVENING ='Evening'
-
+export enum SessionType {
+  MORNING = 'MORNING',
+  AFTERNOON = 'AFTERNOON',
+  EVENING = 'EVENING',
 }
-export enum ScheduleType{
-    STREAM='Stream',
-    WAVE="Wave"
+export enum ScheduleType {
+  STREAM = 'STREAM',
+  WAVE = 'WAVE',
 }
 
 @Entity()
@@ -17,28 +24,26 @@ export class Availability {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('simple-array',{default:[]})
-  weekdays:string[]
+  @Column('simple-array', { default: [] })
+  weekdays: string[];
 
-  @Column("simple-array",{default:[]})
-  sessions:SessionType[]
+  @Column('simple-array', { default: [] })
+  sessions: SessionType[];
 
-  @Column("simple-array") 
-  slots: string[];
+  @Column({ type: 'time', nullable: true })
+  startTime: string;
 
-  @Column({type:'date',nullable:true})
-  startTime:string
+  @Column({ type: 'time', nullable: true })
+  endTime: string;
 
-  @Column({type:'date',nullable:true})
-  endTime:string
+  @Column({ default: 1, type: 'int' })
+  capacity: number;
 
-  @Column({default:1,type:'int'})
-  capacity:number
+  @Column({ type: 'enum', default: ScheduleType.STREAM, enum: ScheduleType })
+  scheduleType: ScheduleType;
 
-  @Column({nullable:true})
-  date:Date
-  @Column({type:'enum',default:ScheduleType.STREAM,enum:ScheduleType})
-  schedultType:ScheduleType
+  @OneToMany(() => Slot, (slot) => slot.availability)
+  slot: Slot;
 
   @ManyToOne(() => Doctor, (doc) => doc.availability, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'docId' })
