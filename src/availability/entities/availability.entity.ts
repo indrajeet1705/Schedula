@@ -42,6 +42,12 @@ export class Availability {
   @Column({ type: 'enum', default: ScheduleType.STREAM, enum: ScheduleType })
   scheduleType: ScheduleType;
 
+  @Column({default:'automatic'})
+  slotCreation:'manual'| "automatic"
+  
+  @Column({default:30})
+  slotPeriod:string
+
   @OneToMany(() => Slot, (slot) => slot.availability)
   slot: Slot;
 

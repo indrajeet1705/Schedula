@@ -40,8 +40,8 @@ export class AvailabilityService {
     return `This action returns all availability`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} availability`;
+  async findOne(id: number) {
+    return await this.availableRepo.findOne({where:{id}});
   }
 
   update(id: number, updateAvailabilityDto: UpdateAvailabilityDto) {

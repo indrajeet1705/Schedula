@@ -1,16 +1,27 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SlotsService } from './slots.service';
-import { CreateSlotDto } from './dto/create-slot.dto';
+import { CreateAutomaticSlotDto, CreateManualSlotDto } from './dto/create-slot.dto';
 import { UpdateSlotDto } from './dto/update-slot.dto';
 
 @Controller('slots')
 export class SlotsController {
   constructor(private readonly slotsService: SlotsService) {}
 
-  @Post()
-  create(@Body() createSlotDto: CreateSlotDto) {
-    return this.slotsService.create(createSlotDto);
+  @Post('/manual/:id')
+  create(@Body() createSlotDto: CreateManualSlotDto,@Param('id') id:number) {
+   
+
+      return this.slotsService.manualSlotcreation(createSlotDto,id);
+    
+    
   }
+  @Post('/automatic/:id')
+  createAutomatic(
+    @Body() createAutomaticSlotDto:CreateAutomaticSlotDto,@Param('id')id:number
+  ){
+    return this.slotsService.automaticSlotCreation(createAutomaticSlotDto,id)
+  }
+
 
   @Get()
   findAll() {

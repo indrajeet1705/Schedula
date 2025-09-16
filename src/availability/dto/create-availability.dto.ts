@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ScheduleType, SessionType } from '../entities/availability.entity';
 
 export class CreateAvailabilityDto {
@@ -10,8 +10,14 @@ export class CreateAvailabilityDto {
   startTime: string;
   @IsNotEmpty()
   endTime: string;
-  @IsNotEmpty()
+  @IsOptional()  
   capacity: number;
   @IsNotEmpty()
   scheduleType: ScheduleType;
+  @IsNotEmpty()
+  slotCreation:'manual'| 'automatic'
+  @IsOptional()
+  @IsString()
+  slotPeriod:string
+  
 }
