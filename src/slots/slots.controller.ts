@@ -17,7 +17,7 @@ export class SlotsController {
   }
   @Post('/automatic/:id')
   createAutomatic(
-    @Body() createAutomaticSlotDto:CreateAutomaticSlotDto,@Param('id')id:number
+    @Body() createAutomaticSlotDto:CreateAutomaticSlotDto,@Param('id') id:number
   ){
     return this.slotsService.automaticSlotCreation(createAutomaticSlotDto,id)
   }

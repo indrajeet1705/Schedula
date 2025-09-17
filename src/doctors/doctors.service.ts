@@ -22,7 +22,7 @@ export class DoctorsService {
    if (!user){
        throw new BadRequestException('provide userId')
    }
-
+  
    const existingDoc= await this.findByEmail(user.email)
    if(existingDoc) throw new BadRequestException('Doctor with this email already exists')
    const newDoctor =  this.docRepo.create({

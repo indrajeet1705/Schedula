@@ -1,6 +1,8 @@
+import { time } from 'console';
 import { Doctor } from 'src/doctors/entities/doctor.entity';
 import { Patient } from 'src/patients/entities/patient.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Slot } from 'src/slots/entities/slot.entity';
+
 import {
   Column,
   Entity,
@@ -14,11 +16,15 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  scheduledOn: Date;
+  @Column({type:'date'})
+  scheduledOn: string;
+
+
 
   @Column()
-  fees: number;
+  fee: string;
+  @Column()
+  message:string
 
   @ManyToOne(() => Patient, (patient) => patient.appointments, {
     onDelete: 'CASCADE',
@@ -31,5 +37,6 @@ export class Appointment {
   })
   @JoinColumn({ name: 'docId' })
   doctor: Doctor;
-
+  @ManyToOne(()=>Slot,slot=>slot.appointments)
+  slotTime:Slot
 }

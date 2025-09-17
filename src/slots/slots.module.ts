@@ -9,5 +9,6 @@ import { Slot } from './entities/slot.entity';
   imports:[AvailabilityModule,TypeOrmModule.forFeature([Slot])],
   controllers: [SlotsController],
   providers: [SlotsService],
+  exports:[SlotsService]
 })
 export class SlotsModule {}

@@ -6,6 +6,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -48,7 +49,7 @@ export class Availability {
   @Column({default:30})
   slotPeriod:string
 
-  @OneToMany(() => Slot, (slot) => slot.availability)
+  @OneToOne(() => Slot, (slot) => slot.availability)
   slot: Slot;
 
   @ManyToOne(() => Doctor, (doc) => doc.availability, { onDelete: 'CASCADE' })

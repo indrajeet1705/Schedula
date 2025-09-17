@@ -6,6 +6,7 @@ import { Slot, Slots } from './entities/slot.entity';
 import { Repository } from 'typeorm';
 import { AvailabilityService } from 'src/availability/availability.service';
 import { Console } from 'console';
+import { DoctorsService } from 'src/doctors/doctors.service';
 
 @Injectable()
 export class SlotsService {
@@ -13,13 +14,16 @@ export class SlotsService {
     @InjectRepository(Slot)
     private slotRepo: Repository<Slot>,
     private availibalityService: AvailabilityService,
+  
   ) {}
   async manualSlotcreation(createManualSlotDto: CreateManualSlotDto, avId: number) {
     const availability = await this.availibalityService.findOne(avId);
+    
 
     if (!availability) {
       throw new Error(`Availability with id ${avId} not found`);
     }
+    
       createManualSlotDto.slots=createManualSlotDto.slots.map(item=>({
        
         ...item,
@@ -31,6 +35,7 @@ export class SlotsService {
     const newCreatedSlots = this.slotRepo.create({
       ...createManualSlotDto,
       availability,
+      doctor:availability.doctor
     });
 
     
@@ -39,6 +44,8 @@ export class SlotsService {
   async automaticSlotCreation(createAutomaticSlotDto: CreateAutomaticSlotDto,avId:number) {
     let { startTime, endTime, capacity, slotPeriod } = createAutomaticSlotDto;
     const availability= await this.availibalityService.findOne(avId)
+      
+
     if(!availability){ throw new BadRequestException('No Availability found for this slot')}
 
     // Convert HH.MM string into minutes
@@ -66,25 +73,29 @@ export class SlotsService {
     // Save into Slot entity
     const newSlot =  this.slotRepo.create({
       slots,
-      availability
-    })
+      availability,
+      doctor:availability.doctor
+      
+    }, 
+  )
     
 
-    return await this.slotRepo.save(newSlot);
+    return await this.slotRepo.save(newSlot,);
   }
 
   
 
-  findAll() {
-    return `This action returns all slots`;
+  async findAll() {
+    return this.slotRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} slot`;
+  async findOne(id: number) {
+   
+    return  await this.slotRepo.findOne({where:{id}});
   }
 
-  update(id: number, updateSlotDto: UpdateSlotDto) {
-    return `This action updates a #${id} slot`;
+  async   update(id: number, updateSlotDto: UpdateSlotDto) {
+     return await this.slotRepo.update(id,updateSlotDto) ;
   }
 
   remove(id: number) {
@@ -118,4 +129,10 @@ export class SlotsService {
     });
     return { newTime, splitedTime };
   }
+  // async updateBooking(sId:number,objIndex:number){
+  //     await this.slotRepo.update(sId,{
+  //       slots[objIndex]
+  //     })
+  // }
+ 
 }

@@ -1,5 +1,6 @@
 import { Appointment } from "src/appointments/entities/appointment.entity";
 import { Availability } from "src/availability/entities/availability.entity";
+import { Slot } from "src/slots/entities/slot.entity";
 import { User } from "src/users/entities/user.entity";
 
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -54,9 +55,15 @@ export class Doctor {
   isProfileCompleted:boolean
 
  
-  @OneToMany(() => Availability, (av) => av.doctor)
+  @OneToMany(() => Availability, (av) => av.doctor,{nullable:true})
+ 
   availability: Availability[];
 
-  @OneToMany(() => Appointment, (appt) => appt.doctor)
+  @OneToMany(() => Appointment, (appt) => appt.doctor,{nullable:true})
+
   appointments: Appointment[];
+  
+  @OneToMany(()=>Slot, slot=>slot.doctor,{nullable:true})
+  slots:Slot[]
+
 }

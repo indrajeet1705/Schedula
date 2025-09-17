@@ -29,6 +29,7 @@ export class AvailabilityService {
    })
 
    const createdAvailability=await this.availableRepo.save(newAvailability)
+  
    return {
     message:"Doctor Profile is Complete ",
     available:createdAvailability
@@ -36,19 +37,19 @@ export class AvailabilityService {
    
   }
 
-  findAll() {
-    return `This action returns all availability`;
+  async findAll() {
+    return await this.availableRepo.find();
   }
 
   async findOne(id: number) {
-    return await this.availableRepo.findOne({where:{id}});
+    return await this.availableRepo.findOne({where:{id},relations:['doctor']});
   }
 
-  update(id: number, updateAvailabilityDto: UpdateAvailabilityDto) {
-    return `This action updates a #${id} availability`;
+  async update(id: number, updateAvailabilityDto: UpdateAvailabilityDto) {
+    return await this.availableRepo.update(id,updateAvailabilityDto) ;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} availability`;
+  async remove(id: number) {
+    return await this.availableRepo.delete(id) ;
   }
 }
