@@ -8,8 +8,8 @@ export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
   @Post('/:id')
-  create(@Body() createPatientDto: CreatePatientDto,id:number) {
-    return this.patientsService.create(createPatientDto,id);
+  create(@Body() createPatientDto: CreatePatientDto,@Param('id') userId:number) {
+    return this.patientsService.create(createPatientDto,userId);
   }
 
   @Get()

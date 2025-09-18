@@ -9,6 +9,7 @@ export class Slots{
   capacity:number
   booked ?:boolean
   noOfBooked ?:number
+  patientEmail:string[]
 } 
 @Entity({name:'slots'})
 export class Slot {

@@ -17,8 +17,11 @@ import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { VerifyotpDto } from 'src/email/dto/create-email.dto';
 
+import { Public } from 'src/auth/guards/public.decorator';
+
+
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(

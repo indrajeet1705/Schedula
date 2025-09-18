@@ -20,6 +20,7 @@ export class PatientsService {
     if(!user){
       throw new NotFoundException('Server error,try again later')
     }
+    console.log(userId,user)
     const existingPatient= await this.findByEmail(user.email)
     if(existingPatient) {
     throw new BadRequestException('Patient with this email already exists ')  
@@ -53,6 +54,7 @@ async update(id: number, updatePatientDto: UpdatePatientDto) {
     return await this.patientRepo.delete(id)
   }
   async findByEmail(email:string){
+    console.log(email)
     return await this.patientRepo.findOne({where:{email}})
   }
   async updateProfilCompleted(id:number,toUpdate:boolean){

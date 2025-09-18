@@ -43,6 +43,10 @@ export class AppointmentsService {
     }
     if( (perticularSlotId?.noOfBooked || 0 ) < perticularSlotId.capacity){
       perticularSlotId.noOfBooked= (perticularSlotId.noOfBooked||0)+1
+      if(perticularSlotId.patientEmail?.includes(patient.email)){
+        throw new BadRequestException("one Patien can't book more than one seats in same slot")
+      }
+      perticularSlotId.patientEmail?.push(patient.email)
       if( perticularSlotId.noOfBooked === perticularSlotId.capacity){
         perticularSlotId.booked=true
       }

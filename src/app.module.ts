@@ -15,6 +15,8 @@ import { AvailabilityModule } from './availability/availability.module';
 import { OtpModule } from './otp/otp.module';
 import { EmailModule } from './email/email.module';
 import { SlotsModule } from './slots/slots.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt.guard';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -44,6 +46,9 @@ import { SlotsModule } from './slots/slots.module';
     SlotsModule,
   ],
   controllers: [AppController, ],
-  providers: [AppService, ],
+  providers: [AppService, {
+    provide:APP_GUARD,
+    useClass:JwtAuthGuard
+  }],
 })
 export class AppModule {}

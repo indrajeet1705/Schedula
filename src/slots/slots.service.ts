@@ -28,7 +28,8 @@ export class SlotsService {
        
         ...item,
         noOfBooked:0,
-        booked:false
+        booked:false,
+        patientEmail:[]
       
     }))
     
@@ -64,7 +65,8 @@ export class SlotsService {
         timing: `${this.minutesToTime(current)}-${this.minutesToTime(next)}`,
         capacity: capacity,
         noOfBooked:0,
-        booked : false
+        booked : false,
+        patientEmail:[]
       };
       slots.push(slot);
       current = next;

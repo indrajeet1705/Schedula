@@ -10,6 +10,7 @@ import { User } from 'src/users/entities/user.entity';
 import { LocalStrategy } from './strategy/local.strategy';
 import { UsersModule } from 'src/users/users.module';
 import { OtpModule } from 'src/otp/otp.module';
+import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
   imports:[
@@ -27,7 +28,7 @@ import { OtpModule } from 'src/otp/otp.module';
       UsersModule,OtpModule
 
   ],
-  providers: [AuthService,LocalStrategy],
+  providers: [AuthService,LocalStrategy,JwtStrategy],
   controllers: [AuthController]
 })
 export class AuthModule {
