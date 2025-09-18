@@ -51,24 +51,31 @@ export class AppointmentsService {
     else{
       throw new BadRequestException('slot is full')
     }
-    // perticularSlotId.noOfBooked = (perticularSlotId?.noOfBooked || 0) + 1;
-    // if( perticularSlotId.capacity=== perticularSlotId.noOfBooked){
-      
-    //    perticularSlotId.booked=true
-    //    throw new BadRequestException('slot is full')
-    // }
-    // if (perticularSlotId.noOfBooked > perticularSlotId.capacity) {
-    //   perticularSlotId.booked = true;
-    //   throw new BadRequestException('slot is full ');
-    // }
+    
+    const timeArr= perticularSlotId.timing.split("-")
+    const [stHour,stMin]= timeArr[0].split(":").map(Number)
+    const [endHour,endMin] =timeArr[1].split(":").map(Number)
+    
+    const stTime = new Date(0,0,0,stHour,stMin)
+    const endTime = new Date (0,0,0,endHour,endMin)
+    const totalTime = (endTime.getTime() - stTime.getTime()) / (1000 * 60);
+    const interval = totalTime/perticularSlotId.capacity
 
+    const patientIndex = perticularSlotId.noOfBooked -1
+    const reportingTime = new Date ( stTime.getTime()+(patientIndex * interval * 60000))
+    const reportingTimeString= `${reportingTime.getHours()}:${reportingTime.getMinutes().toString().padStart(2,'0')}`
+    console.log(stTime)
+
+    
     const newAppointment = this.appointmentRepo.create({
       ...createAppointmentDto,
       fee: doctor?.fees,
       doctor,
       patient,
+      reportingTime:reportingTimeString ,
+      slotTime:slot
     });
-
+    
     return await this.appointmentRepo.save(newAppointment);
   }
 

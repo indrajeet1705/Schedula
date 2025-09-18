@@ -7,6 +7,10 @@ import { UpdateDoctorDto } from './dto/update-doctor.dto';
 export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) {}
 
+  @Get('/:speciality')
+  findBySpeciality(@Param('speciality') speciality : string){
+      return this.doctorsService.findBySpeciality(speciality)
+  }
   @Post('/:id')
   create(@Body() createDoctorDto: CreateDoctorDto,@Param('id') id:number) {
     return this.doctorsService.create(createDoctorDto,id);

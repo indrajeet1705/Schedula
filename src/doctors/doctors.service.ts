@@ -59,4 +59,7 @@ export class DoctorsService {
     if(updatedDoc)
     return updatedDoc
   }
+  async findBySpeciality(speciality : string){
+      return await this.docRepo.find({where:{speciality:speciality},relations:['availability','slots']})
+  }
 }

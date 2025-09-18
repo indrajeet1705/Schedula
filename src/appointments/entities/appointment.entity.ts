@@ -19,17 +19,19 @@ export class Appointment {
   @Column({type:'date'})
   scheduledOn: string;
 
-
+  
 
   @Column()
   fee: string;
   @Column()
   message:string
+  @Column({ type:"time",nullable:true})
+  reportingTime: string
 
   @ManyToOne(() => Patient, (patient) => patient.appointments, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'pid' })
+  @JoinColumn({ name: 'pid'})
   patient: Patient;
 
   @ManyToOne(() => Doctor, (doctor) => doctor.appointments, {

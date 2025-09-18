@@ -60,7 +60,7 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:3000/api/v1/doctors/6
+GET http://localhost:3000/api/v1/doctors/ginacologist
 
 ###  create doc availability
 
@@ -69,7 +69,7 @@ Content-Type: application/json
 
 {
   "weekdays":["Monday","Tuesday","Wednesday","Thursday","Friday"],
-  "sessions":["MORNING","EVENING"],
+  "sessions":["MORNING"],
   "startTime":"09:00",
   "endTime":"12:00",
   "capacity":3,
@@ -115,13 +115,13 @@ Content-Type: application/json
 }
 ###
 
-POST  http://localhost:3000/api/v1/appointments/1/1/3
+POST  http://localhost:3000/api/v1/appointments/1/1/6
 Content-Type: application/json
 
 {
   "scheduledOn":"2025-10-10",
   "slot":"11:00-11:30",
-  "message":"sivier head ache "
+  "message":"stomach pain"
 }
 
 ###

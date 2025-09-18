@@ -80,7 +80,7 @@ export class SlotsService {
   )
     
 
-    return await this.slotRepo.save(newSlot,);
+    return await this.slotRepo.save(newSlot);
   }
 
   
@@ -129,10 +129,6 @@ export class SlotsService {
     });
     return { newTime, splitedTime };
   }
-  // async updateBooking(sId:number,objIndex:number){
-  //     await this.slotRepo.update(sId,{
-  //       slots[objIndex]
-  //     })
-  // }
+
  
 }
