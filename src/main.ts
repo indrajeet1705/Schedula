@@ -20,6 +20,6 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.useGlobalPipes(new ValidationPipe({transform:true,whitelist:true}))
-  await app.listen(process.env.MAIN_PORT || 3000,'0.0.0.0');
+  await app.listen(process.env.PORT || 3000,'0.0.0.0');
 }
 bootstrap();
